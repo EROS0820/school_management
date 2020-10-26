@@ -18,10 +18,36 @@ import Page from 'src/components/Page';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: '#3f51b5',
     height: '100%',
     paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(3),
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '50px !important',
+    }
+  },
+  form: {
+    backgroundColor: theme.palette.background.default,
+    flex: 1,
+    padding: '60px 50px 100px 50px',
+    borderRadius: '0px 5px 5px 0px',
+    textAlign: 'center'
+  },
+  sign_section: {
+    display: 'flex',
+    maxWidth: '1000px !important',
+  },
+  avatar: {
+    backgroundColor: theme.palette.background.dark,
+    flex: 1,
+    borderRadius: '5px 0px 0px 5px',
+  },
+  section_flex: {
+    display: 'flex',
+    width: '1000px',
+  },
+  round: {
+    borderRadius: '50px',
   }
 }));
 
@@ -40,148 +66,106 @@ const LoginView = () => {
         height="100%"
         justifyContent="center"
       >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Box mb={3}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
-                    Sign in
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Sign in on the internal platform
-                  </Typography>
-                </Box>
-                <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      color="primary"
+        <Container
+          maxWidth="sm"
+          className={classes.sign_section}
+        >
+          <div className={classes.section_flex}>
+            <div className={classes.avatar}>
+
+            </div>
+            <div className={classes.form}>
+              <Formik
+                
+                initialValues={{
+                  email: '',
+                  password: ''
+                }}
+                validationSchema={Yup.object().shape({
+                  email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                  password: Yup.string().max(255).required('Password is required')
+                })}
+                onSubmit={() => {
+                  navigate('/app/dashboard', { replace: true });
+                }}
+              >
+                {({
+                  errors,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  isSubmitting,
+                  touched,
+                  values
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Box mb={3} display='flex' justifyContent='center'>
+                      <Typography
+                        color="textPrimary"
+                        variant="h2"
+                      >
+                        Welcome Back!
+                      </Typography>
+                    </Box>
+                    <TextField
+                      error={Boolean(touched.email && errors.email)}
                       fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
+                      helperText={touched.email && errors.email}
+                      margin="normal"
+                      name="email"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="email"
+                      value={values.email}
+                      variant="outlined"
+                      placeholder='Username'
+                    />
+                    <TextField
+                      error={Boolean(touched.password && errors.password)}
                       fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box
-                  mt={3}
-                  mb={1}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box>
-                <TextField
-                  error={Boolean(touched.email && errors.email)}
-                  fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
-                  margin="normal"
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="email"
-                  value={values.email}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.password && errors.password)}
-                  fullWidth
-                  helperText={touched.password && errors.password}
-                  label="Password"
-                  margin="normal"
-                  name="password"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="password"
-                  value={values.password}
-                  variant="outlined"
-                />
-                <Box my={2}>
-                  <Button
-                    color="primary"
-                    disabled={isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
-                    Sign in now
-                  </Button>
-                </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
-                    Sign up
-                  </Link>
-                </Typography>
-              </form>
-            )}
-          </Formik>
+                      helperText={touched.password && errors.password}
+                      margin="normal"
+                      name="password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      type="password"
+                      value={values.password}
+                      variant="outlined"
+                      placeholder='Password'
+                    />
+                    <Box my={2}>
+                      <Button
+                        className={classes.round}
+                        color="primary"
+                        disabled={isSubmitting}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                      >
+                        Login
+                      </Button>
+                    </Box>
+                    <Box mt={3}>
+                      <Typography
+                        color="textSecondary"
+                        variant="body1"
+                      >
+                        <Link
+                          component={RouterLink}
+                          to="/register"
+                          variant="h5"
+                        >
+                          Forgot Password?
+                        </Link>
+                      </Typography>
+                    </Box>
+                  </form>
+                )}
+              </Formik>
+            </div>
+          </div>
+          
         </Container>
       </Box>
     </Page>
